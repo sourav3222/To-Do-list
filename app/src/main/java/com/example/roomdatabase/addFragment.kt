@@ -50,7 +50,7 @@ lateinit var binding: FragmentAddBinding
             binding.timeBtn.text = showTime
         }, hour,minute,false
         )
-        timePicker.show()
+      timePicker.show()
     }
 
     private fun pickdate() {
