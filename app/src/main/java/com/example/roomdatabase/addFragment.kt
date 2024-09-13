@@ -7,11 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.room.Room
 import com.example.roomdatabase.databinding.FragmentAddBinding
 import java.util.Calendar
 
 class addFragment : Fragment() {
 lateinit var binding: FragmentAddBinding
+var showTime:String? = null
+ var showType: String? = null
+    lateinit var dataBase: NoteDataBase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +23,8 @@ lateinit var binding: FragmentAddBinding
     ): View? {
         binding = FragmentAddBinding.inflate(inflater,container,false)
 
+        dataBase = Room.databaseBuilder(requireActivity(),NoteDataBase::class.java,"Ntoe_DB")
+            .allowMainThreadQueries().build()
 
 
         binding.dateBtn.setOnClickListener {
@@ -27,6 +33,14 @@ lateinit var binding: FragmentAddBinding
 
         binding.timeBtn.setOnClickListener {
             picktime()
+        }
+        binding.submitBtn.setOnClickListener {
+
+            val titelstr = binding.titleET.text.toString()
+            val datestr = showType ?: "00/00/0000"
+            val timestr = showTime ?: "00:00"
+            val note = Note(titel = titelstr, time = timestr, date = datestr)
+            dataBase.getNoteDao().insertData(note)
         }
 
 
@@ -44,7 +58,7 @@ lateinit var binding: FragmentAddBinding
 
       val timePicker =   TimePickerDialog(requireActivity(),TimePickerDialog.OnTimeSetListener{view,hourOfDay, minute->
 
-            val showTime = "$hour:$minute"
+            showTime = "$hour:$minute"
 
 
             binding.timeBtn.text = showTime
@@ -64,7 +78,7 @@ lateinit var binding: FragmentAddBinding
             requireActivity(),DatePickerDialog.OnDateSetListener{ view, dayOfMonth, month , year ->
 
 
-                val showType = "$day/${month + 1}/$year"
+                showType = "$day/${month + 1}/$year"
                 binding.dateBtn.text = showType
             },year, month, day
         )
