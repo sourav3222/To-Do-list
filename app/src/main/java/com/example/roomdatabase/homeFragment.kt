@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.example.roomdatabase.databinding.FragmentHomeBinding
 
 
 class homeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
+    lateinit var dataBase: NoteDataBase
 
 
     override fun onCreateView(
@@ -18,6 +21,13 @@ class homeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
       binding = FragmentHomeBinding.inflate(inflater,container,false)
+        dataBase = Room.databaseBuilder(requireActivity(),NoteDataBase::class.java,"Ntoe_DB")
+            .allowMainThreadQueries().build()
+
+        dataBase.getNoteDao().getAllData().forEach {
+
+            Toast.makeText(requireActivity(),"$it",Toast.LENGTH_LONG).show()
+        }
 
         binding.addBtn.setOnClickListener {
 

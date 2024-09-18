@@ -3,7 +3,10 @@ package com.example.roomdatabase
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.selects.select
+
 @Dao
 interface NoteDao {
 
@@ -15,4 +18,7 @@ interface NoteDao {
 
     @Delete
     fun delete(note: Note)
+
+    @Query("Select  * From Note")
+    fun getAllData():List<Note>
 }

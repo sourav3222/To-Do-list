@@ -9,5 +9,5 @@ data class Note(
     val id : Int= 0,
     val titel: String,
     val time: String,
-    val date: String
+    val date: String,
 )
