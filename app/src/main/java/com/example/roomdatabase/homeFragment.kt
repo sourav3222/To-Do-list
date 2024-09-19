@@ -24,13 +24,16 @@ class homeFragment : Fragment() {
         dataBase = Room.databaseBuilder(requireActivity(),NoteDataBase::class.java,"Ntoe_DB")
             .allowMainThreadQueries().build()
 
-        dataBase.getNoteDao().getAllData().forEach {
+     var notes: List<Note> =   dataBase.getNoteDao().getAllData()
 
-            Toast.makeText(requireActivity(),"$it",Toast.LENGTH_LONG).show()
-        }
+        var ad = NoteAdapter()
+        ad.submitList(notes)
+
+        binding.recyclerview.adapter= ad
+
+
 
         binding.addBtn.setOnClickListener {
-
             findNavController().navigate(R.id.action_homeFragment_to_addFragment)
         }
 

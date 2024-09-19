@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.example.roomdatabase.databinding.FragmentAddBinding
 import java.util.Calendar
@@ -41,6 +42,9 @@ var showTime:String? = null
             val timestr = showTime ?: "00:00"
             val note = Note(titel = titelstr, time = timestr, date = datestr)
             dataBase.getNoteDao().insertData(note)
+
+
+            findNavController().navigate(R.id.action_addFragment_to_homeFragment)
         }
 
 
